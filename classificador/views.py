@@ -28,8 +28,11 @@ def querylist(request):
 def urls_submit(request):
 	query = request.POST['sites']
 	vv = [1,2,3,9,8,7, query]
-	sites = {}
+	sites = []
 	context = {'vec':vv, 'sites':sites}
+
+	# sites deve ser da forma "sites": [{"url": "site1", "restrict": True, "reasons":["reason1","reason2"]}, {"url": "site2", "restrict": False, "reasons": []}, ]
+
 
 	if 'callback' in request.POST:
 		callback = request.POST['callback']

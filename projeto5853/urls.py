@@ -15,7 +15,14 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
+from django.urls import include
+from django.http import HttpResponseRedirect
 
 urlpatterns = [
+    #path('admin/', admin.site.urls)
+
+    path('classificador/', include('classificador.urls')),
     path('admin/', admin.site.urls),
+    path('', lambda r: HttpResponseRedirect('classificador/')),
+#    path('index/', views.index, name='index')
 ]

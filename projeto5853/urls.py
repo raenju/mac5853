@@ -22,7 +22,7 @@ urlpatterns = [
     #path('admin/', admin.site.urls)
 
     path('classificador/', include('classificador.urls')),
-    path('admin/', admin.site.urls),
+    #path('admin/', admin.site.urls),
     path('', lambda r: HttpResponseRedirect('classificador/')),
 #    path('index/', views.index, name='index')
 ]

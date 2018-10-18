@@ -1,5 +1,6 @@
 from django.shortcuts import render
 from . import templates
+import requests as rq
 
 
 # Chamadas de renderização das páginas
@@ -25,7 +26,13 @@ def querylist(request):
 # Chamadas de formulários
 
 def urls_submit(request):
-	query = request.POST['url_list']
+	query = request.POST['sites']
 	vv = [1,2,3,9,8,7, query]
-	context = {'vec':vv}
-	return render(request, 'classificador/index.html', context)
+	sites = {}
+	context = {'vec':vv, 'sites':sites}
+
+	if 'callback' in request.POST:
+		callback = request.POST['callback']
+		r = rq.post(callback, data=sites)
+	else:
+		return render(request, 'classificador/index.html', context)

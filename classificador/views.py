@@ -1,7 +1,9 @@
-from django.shortcuts import render
+from django.shortcuts import render, get_list_or_404, get_object_or_404
+from django.http import Http404
 from . import templates
 import requests as rq
 from . import utils as utl
+from .models import *
 
 # Chamadas de renderização das páginas
 
@@ -11,6 +13,11 @@ def index(request):
 	return render(request, 'classificador/index.html', context)
 
 def search(request):
+	rlist = None
+	try:
+		rlist = get_list_or_404(Motivo)
+	except Http404:
+		rlist = None
 	context = {}
 	return render(request, 'classificador/busca.html', context)
 
@@ -32,6 +39,16 @@ def urls_submit(request):
 	for s in site_list:
 		vv.append(s)
 	sites = [utl.classif.classificate(utl.html_handler.get_html(site)) for site in site_list]
+
+	for entry in sites:
+		for reason in entry["reasons"]:
+			try:
+				e = get_object_or_404(Motivo, nome=reason)
+			except Http404:
+				mot = Motivo(nome=reason)
+				mot.save()
+
+
 	#sites = [{"url": "site1", "restrict": True, "reasons":["reason1","reason2"]}]
 	context = {'vec':vv, 'sites':sites}
 

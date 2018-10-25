@@ -7,6 +7,7 @@ class html_page:
 		self.error = err
 
 def get_html(url):
+	r = None
 	try:
 		r = requests.get(url)
 	except requests.exceptions.RequestException as e:

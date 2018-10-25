@@ -18,7 +18,11 @@ def search(request):
 		rlist = get_list_or_404(Motivo)
 	except Http404:
 		rlist = None
-	context = {}
+	if rlist is None:
+		pass
+	else:
+		reasons = [reason.nome for reason in rlist]
+	context = {'reasons':reasons}
 	return render(request, 'classificador/busca.html', context)
 
 def answer(request):
@@ -60,3 +64,6 @@ def urls_submit(request):
 		r = rq.post(callback, data=sites)
 	else:
 		return render(request, 'classificador/resposta.html', context)
+
+def search_submit(request):
+	pass

@@ -3,5 +3,17 @@
     <title>Página de Busca</title>
 </head>
 <body>
-Busca
+
+	<form action="{% url 'search_submit' %}" method="post">
+	{% csrf_token %}
+	<fieldset>
+		{% for m in reasons %}
+			<div class="form-check">
+				<input type="checkbox" class="form-check-input" id=m>
+				<label class="form-check-label" for=m>{{m}}</label>
+			</div>
+		{% endfor %}
+		<input type="submit" class="btn btn-primary" value="Buscar">
+	</fieldset>
+	</form>
 </body>

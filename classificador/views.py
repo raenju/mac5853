@@ -19,7 +19,7 @@ def search(request):
 	except Http404:
 		rlist = None
 	if rlist is None:
-		pass ############################
+		reasons = []
 	else:
 		reasons = [reason.nome for reason in rlist]
 	context = {'reasons':reasons}

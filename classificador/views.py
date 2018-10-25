@@ -66,8 +66,6 @@ def urls_submit(request):
 				drp = DominioRestritoPor(id_d=dom, nome_m=mot)
 				drp.save()
 
-
-	#sites = [{"url": "site1", "restrict": True, "reasons":["reason1","reason2"]}]
 	context = {'sites':sites}
 
 	# sites deve ser da forma "sites": [{"url": "site1", "restrict": True, "reasons":["reason1","reason2"]}, {"url": "site2", "restrict": False, "reasons": []}, ]
@@ -83,7 +81,7 @@ def search_submit(request):
 	context = {}
 	slist = request.POST.getlist('searchlist')
 	print(slist)
-	stype = request.POST['searchType'] # "AND" ou "OR"
+	stype = request.POST['searchType']
 	if not slist:
 		context = {"sites":[]}
 	else:
@@ -143,4 +141,3 @@ def search_submit(request):
 							result.append({"url":site.url, "restrict": True, "reasons":motivos})
 			context = {"sites":result}
 			return render(request, 'classificador/resposta.html', context)
-	return render(request, 'classificador/index.html', context)

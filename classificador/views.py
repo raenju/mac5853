@@ -39,10 +39,7 @@ def querylist(request):
 
 def urls_submit(request):
 	query = request.POST['sites']
-	vv = [1,2,3,9,8,7, query]
 	site_list = utl.parse_url.parse(query)
-	for s in site_list:
-		vv.append(s)
 	sites = [utl.classif.classificate(utl.html_handler.get_html(site)) for site in site_list]
 
 	for entry in sites:
@@ -63,12 +60,15 @@ def urls_submit(request):
 			except Http404:
 				mot = Motivo(nome=reason)
 				mot.save()
-			drp = DominioRestritoPor(id_d=dom, nome_m=mot)
-			drp.save()
+			try:
+				e = get_object_or_404(DominioRestritoPor, id_d=dom, nome_m=mot)
+			except Http404:
+				drp = DominioRestritoPor(id_d=dom, nome_m=mot)
+				drp.save()
 
 
 	#sites = [{"url": "site1", "restrict": True, "reasons":["reason1","reason2"]}]
-	context = {'vec':vv, 'sites':sites}
+	context = {'sites':sites}
 
 	# sites deve ser da forma "sites": [{"url": "site1", "restrict": True, "reasons":["reason1","reason2"]}, {"url": "site2", "restrict": False, "reasons": []}, ]
 

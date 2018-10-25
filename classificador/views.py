@@ -8,8 +8,7 @@ from .models import *
 # Chamadas de renderização das páginas
 
 def index(request):
-	vv = [1,2,3,9,8,7]
-	context = {'vec':vv}
+	context = {}
 	return render(request, 'classificador/index.html', context)
 
 def search(request):
@@ -43,28 +42,43 @@ def urls_submit(request):
 	sites = [utl.classif.classificate(utl.html_handler.get_html(site)) for site in site_list]
 
 	for entry in sites:
-		try:
-			dom = get_object_or_404(Dominio, url=entry["url"])
-			if entry["restrict"] is True and dom.restrict is False:
-				dom.restrict = True
+		if "Erro_ao_buscar_o_site" in entry["reasons"]:
+			continue
+		else:
+			domain_url = utl.parse_url.get_domain(entry["url"])
+			try:
+				dom = get_object_or_404(Dominio, url=domain_url)
+				if entry["restrict"] is True and dom.restrict is False:
+					dom.restrict = True
+					dom.save()
+			except Http404:
+				dom = Dominio(url=domain_url, restrict=entry["restrict"])
 				dom.save()
-		except Http404:
-			dom = Dominio(url=entry["url"], restrict=entry["restrict"])
-			dom.save()
+			try:
+				pag = get_object_or_404(Pagina, url=entry["url"])
+				if entry["restrict"] is True and pag.restrict is False:
+					pag.restrict = True
+					pag.save()
+			except Http404:
+				pag = Pagina(url=entry["url"], domain=dom, restrict=entry["restrict"])
+				pag.save()
+			for reason in entry["reasons"]:
+				try:
+					mot = get_object_or_404(Motivo, nome=reason)
+				except Http404:
+					mot = Motivo(nome=reason)
+					mot.save()
+				try:
+					e = get_object_or_404(DominioRestritoPor, id_d=dom, nome_m=mot)
+				except Http404:
+					drp = DominioRestritoPor(id_d=dom, nome_m=mot)
+					drp.save()
+				try:
+					e = get_object_or_404(PaginaRestritoPor, id_p=pag, nome_m=mot)
+				except Http404:
+					prp = PaginaRestritoPor(id_p=pag, nome_m=mot)
+					prp.save()
 
-		for reason in entry["reasons"]:
-			if reason == "Erro_ao_buscar_o_site":
-				break
-			try:
-				mot = get_object_or_404(Motivo, nome=reason)
-			except Http404:
-				mot = Motivo(nome=reason)
-				mot.save()
-			try:
-				e = get_object_or_404(DominioRestritoPor, id_d=dom, nome_m=mot)
-			except Http404:
-				drp = DominioRestritoPor(id_d=dom, nome_m=mot)
-				drp.save()
 
 	context = {'sites':sites}
 
@@ -141,3 +155,4 @@ def search_submit(request):
 							result.append({"url":site.url, "restrict": True, "reasons":motivos})
 			context = {"sites":result}
 			return render(request, 'classificador/resposta.html', context)
+	return render(request, 'classificador/resposta.html', context)

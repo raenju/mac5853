@@ -2,12 +2,12 @@ from django.db import models
 
 class Dominio(models.Model):
 	url = models.CharField(max_length=100)
-	legal = models.BooleanField()
+	restrict = models.BooleanField()
 
 class Pagina(models.Model):
 	url = models.CharField(max_length=200)
 	domain = models.ForeignKey(Dominio, on_delete=models.CASCADE)
-	legal = models.BooleanField()
+	restrict = models.BooleanField()
 
 class Motivo(models.Model):
 	nome = models.CharField(max_length=100)

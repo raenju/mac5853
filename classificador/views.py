@@ -31,8 +31,8 @@ def urls_submit(request):
 	site_list = utl.parse_url.parse(query)
 	for s in site_list:
 		vv.append(s)
-	sites = [utl.html_handler.get_html(site) for site in site_list]
-	sites = [{"url": "site1", "restrict": True, "reasons":["reason1","reason2"]}]
+	sites = [utl.classif.classificate(utl.html_handler.get_html(site)) for site in site_list]
+	#sites = [{"url": "site1", "restrict": True, "reasons":["reason1","reason2"]}]
 	context = {'vec':vv, 'sites':sites}
 
 	# sites deve ser da forma "sites": [{"url": "site1", "restrict": True, "reasons":["reason1","reason2"]}, {"url": "site2", "restrict": False, "reasons": []}, ]

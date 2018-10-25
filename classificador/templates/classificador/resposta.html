@@ -1,7 +1,44 @@
 {% load staticfiles %}
 <head>
     <title>Página de Resposta</title>
+    <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}" />
+    <style>
+		table {
+		    border-collapse: collapse;
+		    width: 100%;
+		    table-layout: fixed;
+		}
+		th, td {
+		    padding: 10px;
+		    text-align: left;
+		    border-bottom: 1px solid #aaa;
+		    word-wrap: break-word;
+		}
+	</style>
 </head>
 <body>
-Resposta
+	<script src="{% static 'js/jquery-3.2.1.min.js' %}"></script>
+    <script src="{% static 'js/bootstrap.min.js' %}"></script>
+	<table class="table">
+        <thead class="thead-light">
+            <tr>
+              <th scope="col">URL</th>
+              <th scope="col">Restrito</th>
+              <th scope="col">Motivos</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for ans in sites %}
+            <tr>
+                <td>{{ans.url}}</td>
+                <td>{{ans.restrict}}</td>
+                <td>
+                	{% for reason in ans.reasons %}
+                		{{reason}}<br>
+                	{% endfor %}
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
 </body>

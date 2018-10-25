@@ -28,10 +28,11 @@ def querylist(request):
 def urls_submit(request):
 	query = request.POST['sites']
 	vv = [1,2,3,9,8,7, query]
-	sites = utl.parse_url.parse(query)
-	for s in sites:
+	site_list = utl.parse_url.parse(query)
+	for s in site_list:
 		vv.append(s)
-	#site_list = utl.parse_url.parse(sites)
+	sites = [utl.html_handler.get_html(site) for site in site_list]
+	sites = [{"url": "site1", "restrict": True, "reasons":["reason1","reason2"]}]
 	context = {'vec':vv, 'sites':sites}
 
 	# sites deve ser da forma "sites": [{"url": "site1", "restrict": True, "reasons":["reason1","reason2"]}, {"url": "site2", "restrict": False, "reasons": []}, ]
@@ -41,4 +42,4 @@ def urls_submit(request):
 		callback = request.POST['callback']
 		r = rq.post(callback, data=sites)
 	else:
-		return render(request, 'classificador/index.html', context)
+		return render(request, 'classificador/resposta.html', context)

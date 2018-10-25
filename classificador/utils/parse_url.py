@@ -1,2 +1,2 @@
 def parse(string):
-	return ['1']
+	return [site for site in string.split(" ") if len(site) > 0]

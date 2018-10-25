@@ -27,9 +27,11 @@ def querylist(request):
 
 def urls_submit(request):
 	query = request.POST['sites']
-	vv = [1,2,3,9,8,7, query, utl.parse_url.parse("abc")]
-	sites = []
-	site_list = utl.parse_url.parse(sites)
+	vv = [1,2,3,9,8,7, query]
+	sites = utl.parse_url.parse(query)
+	for s in sites:
+		vv.append(s)
+	#site_list = utl.parse_url.parse(sites)
 	context = {'vec':vv, 'sites':sites}
 
 	# sites deve ser da forma "sites": [{"url": "site1", "restrict": True, "reasons":["reason1","reason2"]}, {"url": "site2", "restrict": False, "reasons": []}, ]

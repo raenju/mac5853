@@ -1,5 +1,5 @@
 from django.test import TestCase
-from .utils.parse_url import get_domain
+from classificador.utils.parse_url import get_domain
 
 # Create your tests here.
 
@@ -10,7 +10,9 @@ class getDomainTestCase(TestCase):
         google2 = "www.google.com"
         google3 = "www.google.com/otherstuff"
         google4 = "https://www.google.com/otherstuff"
+        google5 = "https:////www.google.com/otherstuff//"
         self.assertEqual(get_domain(google), 'google.com')
         self.assertEqual(get_domain(google2), 'google.com')
         self.assertEqual(get_domain(google3), 'google.com')
         self.assertEqual(get_domain(google4), 'google.com')
+        self.assertEqual(get_domain(google5), 'google.com')

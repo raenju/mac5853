@@ -33,4 +33,8 @@ def classificate(site):
 			index = index + 1
 		for t in threads:
 			t.join()
-		return {"url": site.url, "restrict": True, "reasons":["reason1","reason2"]}
+		reasons = []
+		for i in range(len(result)):
+			if result[i] is not None:
+				reasons = list(set(reasons) | set(result[i]))
+		return {"url": site.url, "restrict": True, "reasons":reasons}

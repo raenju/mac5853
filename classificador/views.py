@@ -31,8 +31,15 @@ def answer(request):
 
 def querylist(request):
 	context = {}
+	sites = []
+	try:
+		reqs = get_list_or_404(Requisicao.objects.order_by('-timestamp'))
+	except Http404:
+		reqs = []
+	for r in reqs:
+		sites.append({"url":r.url, "status":r.status, "timestamp":r.timestamp})
+	context = {"sites":sites}
 	return render(request, 'classificador/lista.html', context)
-
 
 # Chamadas de formulários
 
@@ -172,12 +179,32 @@ def list_req(request):
 	sites = []
 	status = request.POST.get("req_status", "Todos")
 	if status == "Todos":
-		print(1)
+		try:
+			reqs = get_list_or_404(Requisicao.objects.order_by('-timestamp'))
+		except Http404:
+			reqs = []
+		for r in reqs:
+			sites.append({"url":r.url, "status":r.status, "timestamp":r.timestamp})
 	if status == "Na fila":
-		print(2)
+		try:
+			reqs = get_list_or_404(Requisicao.objects.order_by('-timestamp'), status="Na fila de processamento")
+		except Http404:
+			reqs = []
+		for r in reqs:
+			sites.append({"url":r.url, "status":r.status, "timestamp":r.timestamp})
 	if status == "Processando":
-		print(3)
+		try:
+			reqs = get_list_or_404(Requisicao.objects.order_by('-timestamp'), status="Em processamento")
+		except Http404:
+			reqs = []
+		for r in reqs:
+			sites.append({"url":r.url, "status":r.status, "timestamp":r.timestamp})
 	if status == "Processado":
-		print(4)
+		try:
+			reqs = get_list_or_404(Requisicao.objects.order_by('-timestamp'), status="Processamento finalizado")
+		except Http404:
+			reqs = []
+		for r in reqs:
+			sites.append({"url":r.url, "status":r.status, "timestamp":r.timestamp})
 	context = {"sites":sites}
 	return render(request, 'classificador/lista.html', context)

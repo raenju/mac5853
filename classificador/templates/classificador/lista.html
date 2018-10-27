@@ -14,11 +14,45 @@
 		    border-bottom: 1px solid #aaa;
 		    word-wrap: break-word;
 		}
-	</style>
+    .navbar {
+      overflow: hidden;
+      background-color: #aaa;
+      margin-left: 10px;
+      margin-right: 10px;
+    }
+    .navbar a {
+      float: left;
+      color: #012;
+      text-align: left;
+      padding: 10px 30px;
+      text-decoration: none;
+      font-size: 16px;
+    }
+    .navbar a:hover {
+      background-color: #ccc;
+      color: black;
+    }
+    </style>
 </head>
 <body>
 	<script src="{% static 'js/jquery-3.2.1.min.js' %}"></script>
     <script src="{% static 'js/bootstrap.min.js' %}"></script>
+
+    <nav class="navbar navbar-expand-lg navbar-light">
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item active">
+                    <a class="nav-link" href="/classificador/index">Index</a>
+                </li>
+                <li class="nav-item active">
+                    <a class="nav-link" href="/classificador/busca">Buscar</a>
+                </li>
+                <li class="nav-item active">
+                    <a class="nav-link" href="/classificador/lista">Histórico</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
 
 	<div id='queryform' class="col-12">
 		<form action="{% url 'list_req' %}" method="post">
@@ -38,7 +72,7 @@
         <thead class="thead-light">
             <tr>
               <th scope="col">URL</th>
-              <th scope="col">Status<th>
+              <th scope="col">Status</th>
               <th scope="col">Timestamp</th>
             </tr>
         </thead>

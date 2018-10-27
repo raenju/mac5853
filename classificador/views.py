@@ -111,7 +111,6 @@ def urls_submit(request):
 def search_submit(request):
 	context = {}
 	slist = request.POST.getlist('searchlist')
-	print(slist)
 	stype = request.POST['searchType']
 	if not slist:
 		context = {"sites":[]}

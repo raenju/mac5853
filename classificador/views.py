@@ -47,6 +47,7 @@ def urls_submit(request):
 	query = request.POST['sites']
 	site_list = utl.parse_url.parse(query)
 	sites = []
+	r_sites = []
 	for site in site_list:
 		req = Requisicao(url=site, status="Na fila de processamento")
 		req.save()
@@ -57,6 +58,7 @@ def urls_submit(request):
 		req.status = "Em processamento"
 		req.save()
 		entry = utl.classif.classificate(utl.html_handler.get_html(pair[0]))
+		r_sites.append(entry)
 		req.status = "Processamento finalizado"
 		req.save()
 		if "Erro_ao_buscar_o_site" in entry["reasons"]:
@@ -97,7 +99,7 @@ def urls_submit(request):
 					prp.save()
 
 
-	context = {'sites':sites}
+	context = {'sites':r_sites}
 
 	# sites deve ser da forma "sites": [{"url": "site1", "restrict": True, "reasons":["reason1","reason2"]}, {"url": "site2", "restrict": False, "reasons": []}, ]
 

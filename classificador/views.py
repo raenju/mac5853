@@ -39,9 +39,21 @@ def querylist(request):
 def urls_submit(request):
 	query = request.POST['sites']
 	site_list = utl.parse_url.parse(query)
-	sites = [utl.classif.classificate(utl.html_handler.get_html(site)) for site in site_list]
+	sites = []
+	for site in site_list:
+		req = Requisicao(url=site, status="Na fila de processamento")
+		req.save()
+		sites.append([site, req])
 
-	for entry in sites:
+	#sites = [utl.classif.classificate(utl.html_handler.get_html(site)) for site in site_list]
+
+	for pair in sites:
+		req = pair[1]
+		req.status = "Em processamento"
+		req.save()
+		entry = utl.classif.classificate(utl.html_handler.get_html(pair[0]))
+		req.status = "Processamento finalizado"
+		req.save()
 		if "Erro_ao_buscar_o_site" in entry["reasons"]:
 			continue
 		else:

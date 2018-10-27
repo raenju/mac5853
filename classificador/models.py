@@ -19,3 +19,8 @@ class DominioRestritoPor(models.Model):
 class PaginaRestritoPor(models.Model):
 	id_p = models.ForeignKey(Pagina, on_delete=models.CASCADE)
 	nome_m = models.ForeignKey(Motivo, on_delete=models.CASCADE)
+
+class Requisicao(models.Model):
+	timestamp = models.DateTimeField(auto_now_add=True)
+	url = models.CharField(max_length=200)
+	status = models.CharField(max_length=30)

@@ -12,5 +12,6 @@ urlpatterns = [
     path('lista/', views.querylist, name='lista'),
 
     path('urls_submit/', views.urls_submit, name='urls_submit'),
-    path('search_submit/', views.search_submit, name='search_submit')
+    path('search_submit/', views.search_submit, name='search_submit'),
+    path('list_req/', views.list_req, name='list_req')
 ]

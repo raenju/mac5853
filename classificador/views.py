@@ -45,8 +45,6 @@ def urls_submit(request):
 		req.save()
 		sites.append([site, req])
 
-	#sites = [utl.classif.classificate(utl.html_handler.get_html(site)) for site in site_list]
-
 	for pair in sites:
 		req = pair[1]
 		req.status = "Em processamento"
@@ -168,3 +166,18 @@ def search_submit(request):
 			context = {"sites":result}
 			return render(request, 'classificador/resposta.html', context)
 	return render(request, 'classificador/resposta.html', context)
+
+def list_req(request):
+	context = {}
+	sites = []
+	status = request.POST.get("req_status", "Todos")
+	if status == "Todos":
+		print(1)
+	if status == "Na fila":
+		print(2)
+	if status == "Processando":
+		print(3)
+	if status == "Processado":
+		print(4)
+	context = {"sites":sites}
+	return render(request, 'classificador/lista.html', context)

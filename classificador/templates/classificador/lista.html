@@ -1,7 +1,55 @@
 {% load staticfiles %}
 <head>
     <title>Página de Listagem</title>
+    <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}" />
+    <style>
+		table {
+		    border-collapse: collapse;
+		    width: 100%;
+		    table-layout: fixed;
+		}
+		th, td {
+		    padding: 10px;
+		    text-align: left;
+		    border-bottom: 1px solid #aaa;
+		    word-wrap: break-word;
+		}
+	</style>
 </head>
 <body>
-Lista
+	<script src="{% static 'js/jquery-3.2.1.min.js' %}"></script>
+    <script src="{% static 'js/bootstrap.min.js' %}"></script>
+
+	<div id='queryform' class="col-12">
+		<form action="{% url 'list_req' %}" method="post">
+		{% csrf_token %}
+			<div class="form-group">
+				<div class="btn-group">
+					<input type="submit" class="btn btn-outline-secondary" name="req_status" value="Todos">
+					<input type="submit" class="btn btn-outline-secondary" name="req_status" value="Na fila">
+					<input type="submit" class="btn btn-outline-secondary" name="req_status" value="Processando">
+					<input type="submit" class="btn btn-outline-secondary" name="req_status" value="Processado">
+				</div>
+			</div>
+		</form>
+	</div>
+
+	<table class="table">
+        <thead class="thead-light">
+            <tr>
+              <th scope="col">URL</th>
+              <th scope="col">Status<th>
+              <th scope="col">Timestamp</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for ans in sites %}
+            <tr>
+                <td>{{ans.url}}</td>
+                <td>{{ans.status}}</td>
+                <td>{{ans.timestamp}}</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
 </body>

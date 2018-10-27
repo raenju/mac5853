@@ -37,4 +37,4 @@ def classificate(site):
 		for i in range(len(result)):
 			if result[i] is not None:
 				reasons = list(set(reasons) | set(result[i]))
-		return {"url": site.url, "restrict": True, "reasons":reasons}
+		return {"url": site.url, "restrict": len(reasons)>0, "reasons":reasons}

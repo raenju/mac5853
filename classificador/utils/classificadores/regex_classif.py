@@ -14,9 +14,21 @@ def busca_armamentos(site):
 		return True
 	return False
 
+def busca_prostituicao(site):
+	s = site.html
+	matches = 0
+	if re.search('(?i)acompanhantes? de luxo',s) is not None:
+		matches = matches + 1
+
+	if matches >= 1:
+		return True
+	return False
+
 def classificate(site):
 	reasons = []
 	if busca_armamentos(site):
 		reasons.append("Armamentos")
+	if busca_prostituicao(site):
+		reasons.append("Prostituicao")
 
 	return reasons

@@ -1,1 +1,1 @@
-filenames = ["regex_classif", "regex_classif_2"]
+filenames = ["regex_classif"]

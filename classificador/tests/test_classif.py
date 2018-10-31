@@ -16,6 +16,11 @@ class classificateTestCase(TestCase):
 			return True
 		return False
 
+	def checkc(self,site):
+		if "Cigarros" in classificate(site):
+			return True
+		return False
+
 	def test_classificate(self):
 		content = None
 		with open("classificador/tests/pro1.html") as f:
@@ -26,3 +31,7 @@ class classificateTestCase(TestCase):
 			content = f.read()
 			site = html_page("",content)
 			self.assertEqual(self.checka(site), True)
+		with open("classificador/tests/cig1.html") as f:
+			content = f.read()
+			site = html_page("",content)
+			self.assertEqual(self.checkc(site), True)

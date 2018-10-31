@@ -24,11 +24,26 @@ def busca_prostituicao(site):
 		return True
 	return False
 
+def busca_cigarro(site):
+	s = site.html
+	matches = 0
+	if re.search('(?i)cigarros?',s):
+		matches = matches + 1
+		if re.search('(?i)cigarros? eletr[ôo]nicos?',s):
+			matches = matches + 1
+	if re.search('(?i)narguile',s):
+		matches = matches + 1
+	if matches >= 2:
+		return True
+	return False
+
 def classificate(site):
 	reasons = []
 	if busca_armamentos(site):
 		reasons.append("Armamentos")
 	if busca_prostituicao(site):
 		reasons.append("Prostituicao")
+	if busca_cigarro(site):
+		reasons.append("Cigarros")
 
 	return reasons
